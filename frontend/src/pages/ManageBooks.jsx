@@ -19,6 +19,18 @@ import { ToastAction } from "@/components/ui/toast"
 import BookModal from "@/components/client/BookModal"
 import { Label } from "@/components/ui/label"
 
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
+
+import ReactPaginate from "react-paginate"
+
 export default function ManageUsersPage() {
   const { toast } = useToast()
   const [books, setBooks] = useState([])
@@ -42,7 +54,7 @@ export default function ManageUsersPage() {
     if (selectedCategoryName != '') {
       url = `${env.BACKEND_URL}/books?category=${selectedCategoryName}`
     }
-    if(searchTerm != '' && searchTerm != null) {
+    if (searchTerm != '' && searchTerm != null) {
       url = `${env.BACKEND_URL}/books?search=${searchTerm}`
     }
     if (selectedAuthor > 0 && selectedCategoryName != '') {
@@ -71,6 +83,9 @@ export default function ManageUsersPage() {
 
   const onChangeSearch = (e) => {
     setSearchTerm(e.target.value)
+  }
+
+  const handlePageClick = (data) => {
   }
 
   return <div>
@@ -160,6 +175,29 @@ export default function ManageUsersPage() {
         </>}
       </TableBody>
     </Table>
+
+    <div className="flex justify-center mt-5">
+      <ReactPaginate
+        containerClassName="flex justify-content-center p-2 bg-background"
+        pageClassName={"page-item"}
+        pageLinkClassName={"page-link py-2 px-3"}
+        previousClassName={"page-item"}
+        previousLinkClassName={"page-link py-2 px-3"}
+        nextClassName={"page-item"}
+        nextLinkClassName={"page-link py-2 px-3"}
+        breakClassName={"page-item"}
+        breakLinkClassName={"page-link"}
+        activeClassName={"active"}
+        breakLabel="..."
+        nextLabel=">"
+        onPageChange={handlePageClick}
+        pageRangeDisplayed={1}
+        pageCount={5}
+        previousLabel="<"
+        renderOnZeroPageCount={null}
+      />
+    </div>
+
 
     {bookEditable && <BookModal
       openModal={openBookModal}

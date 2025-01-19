@@ -28,7 +28,7 @@ public class BookServiceImpl implements BookService {
         PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         List<Book> books = null;
         if(search != null && !search.isEmpty()) {
-            books = bookRepo.findByNameLike(search);
+            books = bookRepo.findByNameLike(String.format("%%%s%%", search));
         }
         else {
             books = bookRepo.findAll();
